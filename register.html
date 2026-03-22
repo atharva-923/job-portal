@@ -644,7 +644,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e) {
       };
       msgEl.style.color = '#00ffcc';
       msgEl.textContent = 'Registering...';
-      fetch('http://localhost:5000/api/auth/register', {
+      fetch('https://job-portal-backend-g5ju.onrender.com/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData)

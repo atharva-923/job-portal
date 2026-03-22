@@ -200,7 +200,7 @@ function applyToCompany(idx, companyName, jobId) {
   if (btn) btn.disabled = true;
 
   if (jobId && jobId !== 'null' && jobId !== '') {
-    fetch('http://localhost:5000/api/applications', {
+    fetch('https://job-portal-backend-g5ju.onrender.com/api/applications', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
