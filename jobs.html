@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jobs Listing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="jobs-bg">
+
+<nav>
+  <a class="logo" href="jobs.html">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+    JobPortal
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  <div class="links" id="navLinks">
+    <a href="jobs.html">Jobs</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="profile.html">Profile</a>
+    <a href="login.html" class="btn">Login</a>
+  </div>
+</nav>
+
+<div class="jobs-list-container">
+  <h2>Jobs</h2>
+  <input class="job-search" type="text" placeholder="Search jobs..."/>
+  <div id="categoryFilters" class="category-filters">
+    <button class="cat-btn active" data-cat="All" onclick="setCategory('All')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>All</button>
+    <button class="cat-btn" data-cat="Tech" onclick="setCategory('Tech')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Tech</button>
+    <button class="cat-btn" data-cat="Data" onclick="setCategory('Data')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Data</button>
+    <button class="cat-btn" data-cat="Management" onclick="setCategory('Management')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Management</button>
+    <button class="cat-btn" data-cat="Sales" onclick="setCategory('Sales')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Sales</button>
+    <button class="cat-btn" data-cat="Marketing" onclick="setCategory('Marketing')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Marketing</button>
+    <button class="cat-btn" data-cat="Design" onclick="setCategory('Design')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>Design</button>
+    <button class="cat-btn" data-cat="Finance" onclick="setCategory('Finance')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>Finance</button>
+  </div>
+  <div class="jobs"></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>JobPortal</h3>
+      <p>Connecting talent with opportunity. Find your dream job or hire the best candidates.</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <div class="footer-links">
+        <a href="jobs.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Browse Jobs</a>
+        <a href="about.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> About Us</a>
+        <a href="contact.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Contact</a>
+        <a href="register.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Register</a>
+      </div>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Gundavli IT Park, Mumbai<br>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>9372956742<br>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>globalteams@sjcem.com
+      </p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <p class="footer-copy">© 2025 JobPortal. All rights reserved.</p>
+</footer>
+
+<script>
+// NOTE: API_BASE is defined in script.js — do NOT redeclare here
+
+const companyInfo = {
+  "TechCorp India":        { about:"TechCorp India is a leading software development company building enterprise-grade solutions across cloud, fintech and scalable web applications.", size:"500–1000 employees", industry:"Software & Technology", website:"techcorp.in", founded:"2010" },
+  "DataMinds Pvt. Ltd.":   { about:"DataMinds is an analytics and AI company helping Fortune 500 companies make smarter decisions through data.", size:"200–500 employees", industry:"Data & Analytics", website:"dataminds.io", founded:"2015" },
+  "BuildRight Solutions":  { about:"BuildRight Solutions is a project management and consulting firm delivering complex IT and infrastructure projects on time.", size:"100–200 employees", industry:"Consulting & PM", website:"buildright.co.in", founded:"2012" },
+  "InnovateLabs":          { about:"InnovateLabs is a product innovation company helping startups and enterprises build and scale digital products.", size:"50–100 employees", industry:"Product & Innovation", website:"innovatelabs.in", founded:"2018" },
+  "GrowthEdge Inc.":       { about:"GrowthEdge is a high-growth sales organisation helping B2B companies across India expand their customer base.", size:"200–500 employees", industry:"Sales & Business Dev", website:"growthedge.com", founded:"2016" },
+  "BrandBoost Agency":     { about:"BrandBoost is one of India's top digital marketing agencies managing campaigns for 80+ brands across FMCG and e-commerce.", size:"100–200 employees", industry:"Marketing & Advertising", website:"brandboost.agency", founded:"2014" },
+  "PixelCraft Studios":    { about:"PixelCraft Studios is a design-first agency crafting beautiful digital experiences for web and mobile.", size:"50–100 employees", industry:"Design & Creative", website:"pixelcraft.studio", founded:"2017" },
+  "CloudNine Systems":     { about:"CloudNine Systems is a cloud infrastructure and DevOps company managing over 500 production deployments monthly.", size:"100–200 employees", industry:"Cloud & Infrastructure", website:"cloudnine.systems", founded:"2013" },
+  "WealthTree Advisors":   { about:"WealthTree Advisors is a SEBI-registered financial advisory firm providing investment management and wealth creation services.", size:"50–100 employees", industry:"Finance & Investment", website:"wealthtree.in", founded:"2011" },
+  "NexGen Ventures":       { about:"NexGen Ventures is a venture-backed business development company helping startups achieve product-market fit.", size:"50–100 employees", industry:"Business Development", website:"nexgen.ventures", founded:"2019" },
+  "ContentHive Media":     { about:"ContentHive Media is a remote-first content company producing high-quality written, video and social content for global brands.", size:"200–500 employees", industry:"Media & Content", website:"contenthive.media", founded:"2020" },
+  "AIVerse Technologies":  { about:"AIVerse Technologies is an AI research company building next-generation ML solutions, holding 12 patents.", size:"100–200 employees", industry:"Artificial Intelligence", website:"aiverse.tech", founded:"2016" },
+};
+
+function getCategoryImage(cat) {
+  var m = { Tech:'images/software-engineer.svg', Data:'images/data-scientist.svg', Management:'images/project-manager.svg', Sales:'images/sales-representative.svg', Marketing:'images/marketing-manager.svg', Design:'images/software-engineer.svg', Finance:'images/data-scientist.svg' };
+  return m[cat] || 'images/software-engineer.svg';
+}
+
+function generateSalary(level, category) {
+  var map = {
+    Tech:       { entry:'₹4L–₹8L/yr',  mid:'₹8L–₹18L/yr',  senior:'₹18L–₹35L/yr' },
+    Data:       { entry:'₹5L–₹10L/yr', mid:'₹10L–₹22L/yr', senior:'₹22L–₹40L/yr' },
+    Management: { entry:'₹6L–₹12L/yr', mid:'₹12L–₹24L/yr', senior:'₹24L–₹45L/yr' },
+    Sales:      { entry:'₹3L–₹6L/yr',  mid:'₹6L–₹14L/yr',  senior:'₹14L–₹25L/yr' },
+    Marketing:  { entry:'₹3L–₹7L/yr',  mid:'₹7L–₹15L/yr',  senior:'₹15L–₹28L/yr' },
+    Design:     { entry:'₹4L–₹8L/yr',  mid:'₹8L–₹16L/yr',  senior:'₹16L–₹30L/yr' },
+    Finance:    { entry:'₹4L–₹9L/yr',  mid:'₹9L–₹18L/yr',  senior:'₹18L–₹35L/yr' },
+  };
+  var sal = map[category] || map['Tech'];
+  var lvl = (level || '').toLowerCase();
+  if (lvl.includes('senior')||lvl.includes('lead')||lvl.includes('principal')||lvl.includes('director')) return sal.senior;
+  if (lvl.includes('entry')||lvl.includes('junior')||lvl.includes('intern')||lvl.includes('associate')) return sal.entry;
+  return sal.mid;
+}
+
+function mapMuseCategory(cats) {
+  if (!cats || !cats.length) return 'Tech';
+  var n = cats[0].name.toLowerCase();
+  if (n.includes('engineer')||n.includes('software')||n.includes('tech')||n.includes('dev')) return 'Tech';
+  if (n.includes('data')||n.includes('analyt')||n.includes('science')) return 'Data';
+  if (n.includes('manag')||n.includes('product')||n.includes('project')) return 'Management';
+  if (n.includes('sales')||n.includes('business')) return 'Sales';
+  if (n.includes('market')||n.includes('content')||n.includes('brand')) return 'Marketing';
+  if (n.includes('design')||n.includes('ux')||n.includes('ui')) return 'Design';
+  if (n.includes('financ')||n.includes('account')) return 'Finance';
+  return 'Tech';
+}
+
+function stripHtml(html) {
+  return html.replace(/<[^>]*>/g,' ').replace(/\s+/g,' ').trim();
+}
+
+function buildRoles(jobs) {
+  var rolesMap = {};
+  jobs.forEach(function(j) {
+    var key = j.title.toLowerCase();
+    if (!rolesMap[key]) {
+      rolesMap[key] = { title:j.title, category:j.category, image:getCategoryImage(j.category), companies:[] };
+    }
+    var info = companyInfo[j.company] || {};
+    rolesMap[key].companies.push({
+      _id:      j._id,
+      name:     j.company || 'Company',
+      location: j.location || '—',
+      salary:   j.salary   || '—',
+      type:     j.type     || 'Full-time',
+      openings: j.openPositions || 1,
+      about:    info.about    || j.details || 'An exciting company seeking talented professionals.',
+      size:     info.size     || '—',
+      industry: info.industry || j.category,
+      website:  info.website  || '',
+      founded:  info.founded  || '—',
+    });
+  });
+  return Object.values(rolesMap);
+}
+
+var allRoles        = [];
+var jobsHeading     = document.querySelector('.jobs-list-container h2');
+var jobsContainer   = document.querySelector('.jobs');
+var jobSearch       = document.querySelector('.job-search');
+var searchTerm      = '';
+var activeCategory  = 'All';
+
+function loadAllJobs() {
+  // 1. Backend jobs
+  fetch('http://localhost:5000/api/jobs')
+    .then(function(r){ return r.json(); })
+    .then(function(jobs) {
+      if (Array.isArray(jobs)) allRoles = buildRoles(jobs);
+      createJobListingCards();
+    })
+    .catch(function(){ createJobListingCards(); });
+
+  // 2. Muse API
+  fetch('https://www.themuse.com/api/public/jobs?page=1&descending=true')
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (!data.results) return;
+      data.results.slice(0,30).forEach(function(j) {
+        var cat    = mapMuseCategory(j.categories);
+        var title  = j.name || 'Job Opening';
+        var comp   = j.company && j.company.name ? j.company.name : 'Company';
+        var loc    = j.locations && j.locations[0] ? j.locations[0].name : 'Remote';
+        var type   = j.levels   && j.levels[0]    ? j.levels[0].name    : 'Full-time';
+        var about  = stripHtml(j.contents || '').substring(0, 250);
+        var salary = generateSalary(type, cat);
+        var existing = allRoles.find(function(r){ return r.title.toLowerCase() === title.toLowerCase(); });
+        if (existing) {
+          if (!existing.companies.find(function(c){ return c.name === comp; })) {
+            existing.companies.push({ _id:null, name:comp, location:loc, salary:salary, type:type, openings:1, about:about, size:'—', industry:cat, website:'', founded:'—' });
+          }
+        } else {
+          allRoles.push({ title:title, category:cat, image:getCategoryImage(cat), companies:[{ _id:null, name:comp, location:loc, salary:salary, type:type, openings:1, about:about, size:'—', industry:cat, website:'', founded:'—' }] });
+        }
+      });
+      createJobListingCards();
+    })
+    .catch(function(){});
+}
+
+loadAllJobs();
+
+function setCategory(cat) {
+  activeCategory = cat;
+  document.querySelectorAll('.cat-btn').forEach(function(btn){ btn.classList.toggle('active', btn.dataset.cat === cat); });
+  createJobListingCards();
+}
+
+function updateHeading(count) {
+  jobsHeading.innerHTML = count === 1 ? count + ' Role' : count + ' Roles';
+}
+
+function createJobListingCards() {
+  jobsContainer.innerHTML = '';
+  var filtered = allRoles.filter(function(role) {
+    var matchSearch = role.title.toLowerCase().includes(searchTerm.toLowerCase());
+    var matchCat    = activeCategory === 'All' || role.category === activeCategory;
+    return matchSearch && matchCat;
+  });
+
+  updateHeading(filtered.length);
+
+  if (!filtered.length) {
+    jobsContainer.innerHTML = '<p style="color:#666;font-size:16px;grid-column:1/-1;text-align:center;padding:40px 0;">No roles found.</p>';
+    return;
+  }
+
+  filtered.forEach(function(role, index) {
+    var totalOpenings = role.companies.reduce(function(sum,c){ return sum+(c.openings||1); }, 0);
+    var card = document.createElement('div');
+    card.classList.add('job');
+    card.style.animationDelay = (index * 0.08) + 's';
+
+    var companyPills = role.companies.slice(0,3).map(function(c){
+      return '<span style="font-size:11px;background:#e0f2fe;color:#023047;padding:2px 8px;border-radius:10px;margin-right:4px;font-weight:600;">' + c.name + '</span>';
+    }).join('') + (role.companies.length > 3 ? '<span style="font-size:11px;color:#888;">+' + (role.companies.length-3) + ' more</span>' : '');
+
+    card.innerHTML =
+      '<div class="job-header">' +
+        '<img src="' + role.image + '" alt="' + role.title + '"/>' +
+        '<span class="job-category-badge">' + role.category + '</span>' +
+        '<span class="open-positions">' + role.companies.length + (role.companies.length===1?' company':' companies') + '</span>' +
+      '</div>' +
+      '<h3 class="job-title">' + role.title + '</h3>' +
+      '<div class="job-company-info">' +
+        '<span class="company-detail"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>' + role.companies.length + (role.companies.length===1?' company':' companies') + ' hiring</span>' +
+        '<span class="company-detail"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' + totalOpenings + ' open position' + (totalOpenings>1?'s':'') + '</span>' +
+      '</div>' +
+      '<div class="job-meta">' +
+        '<span class="meta-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + role.companies[0].type + '</span>' +
+        '<span class="meta-tag salary"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>' + role.companies[0].salary + '</span>' +
+      '</div>' +
+      '<div class="details">' + companyPills + '</div>' +
+      '<a href="job-details.html?title=' + encodeURIComponent(role.title) + '&category=' + encodeURIComponent(role.category) + '&companies=' + encodeURIComponent(JSON.stringify(role.companies)) + '" class="details-btn">View Details <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>';
+
+    jobsContainer.appendChild(card);
+  });
+}
+
+jobSearch.addEventListener('input', function(e){ searchTerm = e.target.value; createJobListingCards(); });
+</script>
+<script src="script.js"></script>
+</body>
+</html>

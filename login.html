@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+<style>
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+              url('seven hills hospital.jpg') center/cover no-repeat;
+}
+#loginMessage { margin-top: 15px; color: white; font-weight: 500; }
+.form-box svg {
+  width: 100px;
+  height: 100px;
+  color: #00c9a7;
+  margin-bottom: 15px;
+}
+</style>
+</head>
+<body>
+
+<div class="form-box">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+      <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+    <h2>Welcome Back</h2>
+    <form onsubmit="return loginUser(event)">
+        <input type="email" id="loginEmail" placeholder="Enter your Email" required>
+        <span class="err" id="emailErr"></span>
+        <input type="password" id="loginPassword" placeholder="Enter your Password" required>
+        <span class="err" id="passwordErr"></span>
+        <button type="submit">Login</button>
+    </form>
+    <p id="loginMessage"></p>
+    <p style="color:white;margin-top:15px;font-size:14px;">Don't have an account? <a href="register.html" style="color:#90caf9;">Register here</a></p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

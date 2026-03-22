@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Profile – JobPortal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+<style>
+.avatar { position:relative; width:100px; height:100px; margin:0 auto 14px; cursor:pointer; }
+.avatar img { width:100px; height:100px; border-radius:50%; object-fit:cover; border:3px solid #00c9a7; display:block; }
+.avatar-placeholder { width:100px; height:100px; border-radius:50%; background:rgba(0,201,167,0.15); border:3px solid #00c9a7; display:flex; align-items:center; justify-content:center; }
+.avatar-placeholder svg { width:52px; height:52px; color:#00c9a7; stroke-width:1.5; }
+.avatar-overlay { position:absolute; inset:0; border-radius:50%; background:rgba(0,0,0,0.45); display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; }
+.avatar:hover .avatar-overlay { opacity:1; }
+.avatar-overlay span { color:white; font-size:11px; font-weight:600; text-align:center; line-height:1.3; }
+#picInput { display:none; }
+.badge { display:inline-flex; align-items:center; gap:5px; padding:6px 12px; background:rgba(0,201,167,0.15); border-radius:20px; font-size:12px; margin:4px; color:#00c9a7; font-weight:600; }
+.badge .remove-badge { cursor:pointer; font-size:13px; color:#888; }
+.badge .remove-badge:hover { color:#e74c3c; }
+.add-badge-row { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center; }
+.add-badge-row input { flex:1; min-width:100px; padding:6px 10px; border-radius:20px; border:1.5px solid #00c9a7; outline:none; font-size:12px; font-family:inherit; color:#023047; }
+.add-badge-row button { padding:6px 14px; border-radius:20px; border:none; background:#00c9a7; color:white; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; }
+.resume-upload-area { border:2px dashed #b0d4e8; border-radius:14px; padding:28px 20px; text-align:center; cursor:pointer; transition:0.2s; }
+.resume-upload-area:hover { border-color:#00c9a7; background:rgba(0,201,167,0.05); }
+.resume-upload-area svg { width:40px; height:40px; color:#b0d4e8; display:block; margin:0 auto 10px; }
+.resume-upload-area p { color:#888; font-size:13px; margin:0; }
+.resume-upload-area span { color:#00c9a7; font-weight:600; }
+#resumeInput { display:none; }
+.resume-file-display { display:none; align-items:center; gap:12px; background:rgba(0,201,167,0.08); border:1.5px solid #00c9a7; border-radius:10px; padding:12px 16px; margin-top:12px; }
+.resume-file-display.show { display:flex; }
+.resume-file-display svg { width:28px; height:28px; color:#00c9a7; flex-shrink:0; }
+.resume-file-display .file-info { flex:1; overflow:hidden; }
+.resume-file-display .file-name { font-weight:600; color:#023047; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.resume-file-display .file-size { font-size:11px; color:#888; margin-top:2px; }
+.resume-actions { display:flex; gap:8px; flex-shrink:0; }
+.resume-actions button { padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; border:none; }
+.btn-view-resume { background:#023047; color:white; }
+.btn-remove-resume { background:#ffeaea; color:#c0392b; }
+.profile-card h2.placeholder-name { color:#aaa; font-style:italic; font-size:17px; }
+
+/* Company logo */
+.company-logo-big { width:100px; height:100px; border-radius:20px; background:linear-gradient(135deg,#023047,#2a5298); color:white; font-size:40px; font-weight:700; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; }
+
+/* Add Job Form */
+.add-job-form { display:flex; flex-direction:column; gap:14px; }
+.add-job-form input, .add-job-form select, .add-job-form textarea { width:100%; padding:10px 14px; border:1.5px solid #e0e0e0; border-radius:10px; font-family:inherit; font-size:14px; color:#023047; background:#f8fafc; box-sizing:border-box; }
+.add-job-form textarea { resize:vertical; min-height:80px; }
+.add-job-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+.post-job-btn { background:#023047; color:white; border:none; padding:12px 28px; border-radius:10px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; }
+#jobPostMsg { font-size:13px; color:#00c9a7; margin-top:6px; }
+
+/* Posted job cards */
+.posted-jobs-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; margin-top:16px; }
+.posted-job-card { background:#f8fafc; border:1.5px solid #e8edf2; border-radius:14px; padding:18px; position:relative; }
+.posted-job-card h4 { font-size:15px; color:#023047; font-weight:700; margin-bottom:6px; }
+.posted-job-card .pj-company { font-size:13px; color:#555; margin-bottom:10px; }
+.pj-tag { font-size:11px; background:white; color:#444; padding:2px 10px; border-radius:12px; border:1px solid #e0e0e0; font-weight:500; margin-right:4px; }
+.pj-openings { font-size:12px; font-weight:700; background:#e0f2fe; color:#023047; padding:3px 10px; border-radius:20px; }
+.delete-job-btn { position:absolute; top:12px; right:12px; background:#ffeaea; color:#c0392b; border:none; border-radius:8px; padding:4px 10px; font-size:11px; font-weight:600; cursor:pointer; }
+
+/* Received applications */
+.received-app-card { display:flex; align-items:center; justify-content:space-between; gap:16px; background:#f8fafc; border:1.5px solid #e8edf2; border-radius:12px; padding:14px 18px; margin-bottom:10px; flex-wrap:wrap; }
+.app-candidate-name { font-size:14px; font-weight:700; color:#023047; margin-bottom:2px; }
+.app-candidate-email { font-size:12px; color:#888; margin-bottom:4px; }
+.app-job-title { font-size:12px; font-weight:600; background:#e0f2fe; color:#023047; padding:2px 8px; border-radius:10px; display:inline-block; }
+.app-status-badge { font-size:11px; font-weight:700; padding:4px 12px; border-radius:20px; text-transform:capitalize; }
+.app-status-badge.pending  { background:#fff3e0; color:#e65100; }
+.app-status-badge.reviewed { background:#e0f2fe; color:#023047; }
+.app-status-badge.accepted { background:#e8f5e9; color:#1b5e20; }
+.app-status-badge.rejected { background:#ffeaea; color:#c0392b; }
+.app-actions { display:flex; gap:8px; flex-shrink:0; }
+.app-actions button { padding:6px 14px; border-radius:8px; font-size:12px; font-weight:600; cursor:pointer; font-family:inherit; border:none; }
+.btn-interview { background:#023047; color:white; }
+.btn-reject    { background:#ffeaea; color:#c0392b; }
+.btn-pending   { background:#f1f5f9; color:#555; }
+
+.save-btn { background:#00c9a7; color:#000; border:none; padding:10px 24px; border-radius:10px; font-size:14px; font-weight:600; cursor:pointer; font-family:inherit; margin-top:8px; }
+.empty-state { text-align:center; padding:30px 20px; color:#aaa; }
+.empty-state svg { width:48px; height:48px; color:#d0e8f5; display:block; margin:0 auto 10px; }
+.empty-state p { font-size:14px; }
+.empty-state a { color:#00c9a7; font-weight:600; text-decoration:none; }
+</style>
+</head>
+<body class="profile-bg">
+
+<nav>
+  <a class="logo" href="jobs.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;display:inline;margin-right:8px;vertical-align:middle;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v2"/></svg>
+    JobPortal
+  </a>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  <div class="links" id="navLinks">
+    <a href="jobs.html">Jobs</a>
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="profile.html">Profile</a>
+    <a href="login.html" class="btn">Login</a>
+  </div>
+</nav>
+
+<!-- JOB SEEKER VIEW -->
+<div class="page" id="jobSeekerView">
+  <div class="profile-card">
+    <div class="avatar" id="avatarWrapper" onclick="document.getElementById('picInput').click()">
+      <div class="avatar-placeholder" id="avatarPlaceholder">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <img id="avatarImg" src="" alt="" style="display:none;"/>
+      <div class="avatar-overlay"><span>📷<br>Change<br>Photo</span></div>
+    </div>
+    <input type="file" id="picInput" accept="image/*" onchange="handlePicUpload(event)"/>
+    <h2 id="displayName" class="placeholder-name">Your Name</h2>
+    <p class="role" id="displayRole">Job Seeker</p>
+    <div class="stat-row">
+      <div class="stat"><div class="num" id="statApplied">0</div><div class="lbl">Applied</div></div>
+      <div class="stat"><div class="num" id="statReviewed">0</div><div class="lbl">Reviewed</div></div>
+      <div class="stat"><div class="num" id="statAccepted">0</div><div class="lbl">Accepted</div></div>
+    </div>
+    <div class="badge-row" id="badgeRow"></div>
+    <div class="add-badge-row">
+      <input type="text" id="newBadgeInput" placeholder="Add interest..." maxlength="20" onkeydown="if(event.key==='Enter') addBadge()"/>
+      <button onclick="addBadge()">+ Add</button>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="panel">
+      <h3>Edit Profile</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>Full Name</label><input type="text" id="fullName" placeholder="Your full name"/></div>
+        <div class="form-group"><label>Username</label><input type="text" id="username" placeholder="Your username"/></div>
+        <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="your@email.com"/></div>
+        <div class="form-group"><label>Phone</label><input type="tel" id="phone" placeholder="Phone number"/></div>
+        <div class="form-group"><label>City</label><input type="text" id="city" placeholder="Your city"/></div>
+        <div class="form-group">
+          <label>Preferred Role</label>
+          <select id="role">
+            <option value="">-- Select a role --</option>
+            <option>Software Engineer</option><option>Data Scientist</option>
+            <option>Project Manager</option><option>Product Manager</option>
+            <option>Sales Representative</option><option>Marketing Manager</option>
+          </select>
+        </div>
+      </div>
+      <button class="save-btn" onclick="saveProfile()">Save Changes</button>
+      <p id="saveMsg" style="margin-top:10px;font-size:13px;"></p>
+    </div>
+
+    <div class="panel">
+      <h3>Resume / CV</h3>
+      <div class="resume-upload-area" id="resumeDropArea" onclick="document.getElementById('resumeInput').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleResumeDrop(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+        <p>Drag & drop your resume here or <span>click to browse</span></p>
+        <p style="font-size:11px;margin-top:6px;">Supports PDF, DOC, DOCX (Max 5MB)</p>
+      </div>
+      <input type="file" id="resumeInput" accept=".pdf,.doc,.docx" onchange="handleResumeUpload(event)"/>
+      <div class="resume-file-display" id="resumeDisplay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <div class="file-info">
+          <div class="file-name" id="resumeFileName">resume.pdf</div>
+          <div class="file-size" id="resumeFileSize">—</div>
+        </div>
+        <div class="resume-actions">
+          <button class="btn-view-resume" onclick="viewResume()">View</button>
+          <button class="btn-remove-resume" onclick="removeResume()">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>My Applications</h3>
+      <div id="applicationsContainer">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v2"/></svg>
+          <p>No applications yet.<br><a href="jobs.html">Browse jobs</a> and start applying!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPANY VIEW -->
+<div class="page" id="companyView" style="display:none;">
+  <div class="profile-card">
+    <div class="company-logo-big" id="companyLogoInitial">C</div>
+    <h2 id="companyDisplayName">Company</h2>
+    <p class="role" id="companyIndustryDisplay">Industry</p>
+    <div class="stat-row">
+      <div class="stat"><div class="num" id="statJobs">0</div><div class="lbl">Jobs Posted</div></div>
+      <div class="stat"><div class="num" id="statApplicants">0</div><div class="lbl">Applicants</div></div>
+    </div>
+    <div style="margin-top:16px;text-align:left;width:100%;font-size:13px;color:#555;">
+      <p style="margin:4px 0;"><span id="companyContactDisplay">—</span></p>
+      <a id="companyWebsiteDisplay" href="#" target="_blank" style="color:#185FA5;font-size:13px;">—</a>
+      <p style="margin:4px 0;"><span id="companySizeDisplay">—</span></p>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="panel">
+      <h3>Company Info</h3>
+      <div class="form-grid">
+        <div class="form-group"><label>Company Name</label><input type="text" id="cCompanyName" placeholder="Company name"/></div>
+        <div class="form-group"><label>Contact Person</label><input type="text" id="cContactPerson" placeholder="Contact person"/></div>
+        <div class="form-group"><label>Industry</label><input type="text" id="cIndustry" placeholder="e.g. Technology"/></div>
+        <div class="form-group"><label>Company Size</label><input type="text" id="cCompanySize" placeholder="e.g. 50–200 employees"/></div>
+        <div class="form-group"><label>Website</label><input type="url" id="cWebsite" placeholder="https://yourcompany.com"/></div>
+        <div class="form-group"><label>Email</label><input type="email" id="cEmail" placeholder="company@email.com"/></div>
+      </div>
+      <button class="save-btn" onclick="saveCompanyProfile()"> Save Changes</button>
+      <p id="companySaveMsg" style="font-size:13px;margin-top:6px;color:#00c9a7;"></p>
+    </div>
+
+    <div class="panel">
+      <h3>Post a New Job</h3>
+      <div class="add-job-form">
+        <div class="add-job-row">
+          <input type="text" id="newJobTitle" placeholder="Job Title e.g. Software Engineer"/>
+          <select id="newJobCategory">
+            <option value="">Select Category</option>
+            <option>Tech</option><option>Data</option><option>Management</option>
+            <option>Sales</option><option>Marketing</option><option>Design</option><option>Finance</option>
+          </select>
+        </div>
+        <div class="add-job-row">
+          <input type="number" id="newJobPositions" placeholder="Open Positions" min="1"/>
+          <input type="text" id="newJobSalary" placeholder="Salary e.g. ₹8L–₹15L/yr"/>
+        </div>
+        <div class="add-job-row">
+          <input type="text" id="newJobLocation" placeholder="Location e.g. Mumbai, Maharashtra"/>
+          <select id="newJobType">
+            <option value="Full-time">Full-time</option><option value="Part-time">Part-time</option>
+            <option value="Remote">Remote</option><option value="Contract">Contract</option>
+          </select>
+        </div>
+        <textarea id="newJobDetails" placeholder="Job description..."></textarea>
+        <div>
+          <button class="post-job-btn" onclick="postJob()">+ Post Job</button>
+          <p id="jobPostMsg"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Your Posted Jobs</h3>
+      <div id="postedJobsContainer">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v2"/></svg>
+          <p>No jobs posted yet.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h3>Applications Received</h3>
+      <div id="receivedApplicationsContainer">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <p>No applications received yet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>JobPortal</h3>
+      <p>Connecting talent with opportunity. Find your dream job or hire the best candidates.</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <div class="footer-links">
+        <a href="jobs.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Browse Jobs</a>
+        <a href="about.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> About Us</a>
+        <a href="contact.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Contact</a>
+        <a href="register.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Register</a>
+      </div>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Gundavli IT Park, Mumbai<br>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>9372956742<br>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>globalteams@sjcem.com
+      </p>
+    </div>
+  </div>
+  <hr class="footer-divider">
+  <p class="footer-copy">© 2025 JobPortal. All rights reserved.</p>
+</footer>
+
+<script>
+const API = 'http://localhost:5000/api';
+
+document.addEventListener('DOMContentLoaded', function() {
+  var user = JSON.parse(localStorage.getItem('user') || '{}');
+  if (user.accountType === 'company') {
+    document.getElementById('jobSeekerView').style.display = 'none';
+    document.getElementById('companyView').style.display  = 'flex';
+    loadCompanyProfile(user);
+    loadPostedJobs(user);
+    loadReceivedApplications();
+  } else {
+    loadProfile();
+  }
+});
+
+// ── COMPANY ──────────────────────────────────────────────
+function loadCompanyProfile(user) {
+  document.getElementById('companyLogoInitial').textContent      = (user.fullName||'C').charAt(0).toUpperCase();
+  document.getElementById('companyDisplayName').textContent      = user.fullName || 'Company';
+  document.getElementById('companyIndustryDisplay').textContent  = user.industry || 'Industry';
+  document.getElementById('companyContactDisplay').textContent   = user.contactPerson || '—';
+  document.getElementById('companySizeDisplay').textContent      = user.companySize || '—';
+  var w = document.getElementById('companyWebsiteDisplay');
+  w.textContent = (user.website||'').replace('https://','') || '—';
+  w.href = user.website || '#';
+  setVal('cCompanyName',   user.fullName||user.companyName);
+  setVal('cContactPerson', user.contactPerson);
+  setVal('cIndustry',      user.industry);
+  setVal('cCompanySize',   user.companySize);
+  setVal('cWebsite',       user.website);
+  setVal('cEmail',         user.email);
+}
+
+function saveCompanyProfile() {
+  var token = localStorage.getItem('token');
+  var msg   = document.getElementById('companySaveMsg');
+  var data  = {
+    fullName:      document.getElementById('cCompanyName').value.trim(),
+    contactPerson: document.getElementById('cContactPerson').value.trim(),
+    industry:      document.getElementById('cIndustry').value.trim(),
+    companySize:   document.getElementById('cCompanySize').value.trim(),
+    website:       document.getElementById('cWebsite').value.trim(),
+  };
+  document.getElementById('companyDisplayName').textContent     = data.fullName;
+  document.getElementById('companyLogoInitial').textContent     = data.fullName.charAt(0).toUpperCase();
+  document.getElementById('companyIndustryDisplay').textContent = data.industry;
+  document.getElementById('companyContactDisplay').textContent  = data.contactPerson;
+  document.getElementById('companySizeDisplay').textContent     = data.companySize;
+  var u = JSON.parse(localStorage.getItem('user')||'{}');
+  localStorage.setItem('user', JSON.stringify(Object.assign(u, data)));
+  if (token) {
+    fetch(API + '/users/profile', { method:'PATCH', headers:{'Content-Type':'application/json','Authorization':'Bearer '+token}, body:JSON.stringify(data) })
+    .then(function(r){ return r.json(); })
+    .then(function(d) {
+      var u2 = JSON.parse(localStorage.getItem('user')||'{}');
+      localStorage.setItem('user', JSON.stringify(Object.assign(u2, d)));
+      if (msg) { msg.textContent = '✅ Saved!'; setTimeout(function(){ msg.textContent=''; }, 3000); }
+    }).catch(function(){ if(msg){ msg.style.color='#e74c3c'; msg.textContent='Error saving.'; } });
+  }
+}
+
+function postJob() {
+  var token = localStorage.getItem('token');
+  var msg   = document.getElementById('jobPostMsg');
+  var user  = JSON.parse(localStorage.getItem('user')||'{}');
+  var title    = document.getElementById('newJobTitle').value.trim();
+  var category = document.getElementById('newJobCategory').value;
+  var positions= parseInt(document.getElementById('newJobPositions').value)||1;
+  var salary   = document.getElementById('newJobSalary').value.trim();
+  var jobLoc   = document.getElementById('newJobLocation').value.trim();
+  var type     = document.getElementById('newJobType').value;
+  var details  = document.getElementById('newJobDetails').value.trim();
+  if (!title||!category||!details) { msg.style.color='#e74c3c'; msg.textContent='Please fill title, category and description.'; return; }
+  fetch(API + '/jobs', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body: JSON.stringify({ title, category, details, openPositions:positions, salary, location:jobLoc, type, company:user.fullName||user.companyName })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function(data) {
+    if (data._id||data.title) {
+      msg.style.color='#00c9a7'; msg.textContent='✅ Job posted!';
+      ['newJobTitle','newJobPositions','newJobSalary','newJobLocation','newJobDetails'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+      document.getElementById('newJobCategory').value='';
+      loadPostedJobs(user);
+      setTimeout(function(){ msg.textContent=''; }, 3000);
+    } else { msg.style.color='#e74c3c'; msg.textContent=data.message||'Failed.'; }
+  }).catch(function(){ msg.style.color='#e74c3c'; msg.textContent='Server error.'; });
+}
+
+function loadPostedJobs(user) {
+  var token = localStorage.getItem('token');
+  var companyName = user.fullName||user.companyName||'';
+  fetch(API + '/jobs', { headers:{'Authorization':'Bearer '+token} })
+  .then(function(r){ return r.json(); })
+  .then(function(jobs) {
+    var myJobs = Array.isArray(jobs) ? jobs.filter(function(j){ return j.company===companyName; }) : [];
+    document.getElementById('statJobs').textContent = myJobs.length;
+    renderPostedJobs(myJobs, companyName);
+  }).catch(function(){ renderPostedJobs([], companyName); });
+}
+
+function renderPostedJobs(jobs, companyName) {
+  var c = document.getElementById('postedJobsContainer');
+  if (!jobs.length) { c.innerHTML='<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v2"/></svg><p>No jobs posted yet.</p></div>'; return; }
+  c.innerHTML = '<div class="posted-jobs-grid">' + jobs.map(function(job){
+    return '<div class="posted-job-card"><button class="delete-job-btn" onclick="deleteJob(\''+job._id+'\')">✕ Delete</button><h4>'+job.title+'</h4><div class="pj-company">'+companyName+'</div><div style="margin-bottom:8px;"><span class="pj-tag">'+job.category+'</span><span class="pj-tag">'+(job.type||'Full-time')+'</span>'+(job.salary?'<span class="pj-tag">'+job.salary+'</span>':'')+'</div><span class="pj-openings">'+(job.openPositions||1)+' opening'+(job.openPositions>1?'s':'')+'</span></div>';
+  }).join('') + '</div>';
+}
+
+function deleteJob(jobId) {
+  var token = localStorage.getItem('token');
+  fetch(API+'/jobs/'+jobId, { method:'DELETE', headers:{'Authorization':'Bearer '+token} })
+  .then(function(){ loadPostedJobs(JSON.parse(localStorage.getItem('user')||'{}')); })
+  .catch(function(){});
+}
+
+function loadReceivedApplications() {
+  var token = localStorage.getItem('token');
+  if (!token) return;
+  fetch(API + '/applications/company', { headers:{'Authorization':'Bearer '+token} })
+  .then(function(r){ return r.json(); })
+  .then(function(apps) {
+    var container = document.getElementById('receivedApplicationsContainer');
+    if (!container) return;
+    var statEl = document.getElementById('statApplicants');
+    if (statEl) statEl.textContent = apps.length||0;
+    if (!apps.length) {
+      container.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><p>No applications received yet.</p></div>';
+      return;
+    }
+    container.innerHTML = apps.map(function(app) {
+      var candidate = app.userId||{};
+      var job       = app.jobId||{};
+      var status    = app.status||'pending';
+      var resetBtn  = status!=='pending' ? '<button class="btn-pending" onclick="updateAppStatus(\''+app._id+'\',\'pending\')">Reset</button>' : '';
+      return '<div class="received-app-card" id="app-'+app._id+'">' +
+        '<div class="app-candidate">' +
+          '<div class="app-candidate-name">'+(candidate.fullName||'Applicant')+'</div>' +
+          '<div class="app-candidate-email">'+(candidate.email||'—')+'</div>' +
+          '<span class="app-job-title">'+(job.title||'Job')+'</span>' +
+        '</div>' +
+        '<span class="app-status-badge '+status+'">'+status+'</span>' +
+        '<div class="app-actions">' +
+          '<button class="btn-interview" onclick="updateAppStatus(\''+app._id+'\',\'accepted\')">✓ Interview</button>' +
+          '<button class="btn-reject" onclick="updateAppStatus(\''+app._id+'\',\'rejected\')">✕ Reject</button>' +
+          resetBtn +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }).catch(function(){});
+}
+
+function updateAppStatus(appId, status) {
+  var token = localStorage.getItem('token');
+  fetch(API+'/applications/'+appId, {
+    method:'PATCH',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body: JSON.stringify({ status:status })
+  })
+  .then(function(r){ return r.json(); })
+  .then(function() {
+    var card  = document.getElementById('app-'+appId);
+    if (!card) return;
+    var badge = card.querySelector('.app-status-badge');
+    if (badge) { badge.className='app-status-badge '+status; badge.textContent=status; }
+    var actions = card.querySelector('.app-actions');
+    if (actions && status!=='pending' && !actions.querySelector('.btn-pending')) {
+      var btn = document.createElement('button');
+      btn.className='btn-pending'; btn.textContent='Reset';
+      btn.onclick=function(){ updateAppStatus(appId,'pending'); };
+      actions.appendChild(btn);
+    }
+  }).catch(function(){ alert('Failed to update. Try again.'); });
+}
+
+// ── JOB SEEKER ───────────────────────────────────────────
+function setVal(id, value) { var el=document.getElementById(id); if(el&&value) el.value=value; }
+
+function loadProfile() {
+  if (!document.getElementById('displayName')) return;
+  var token  = localStorage.getItem('token');
+  var user   = JSON.parse(localStorage.getItem('user')||'{}');
+  var extras = JSON.parse(localStorage.getItem('profileExtras')||'{}');
+  if (user.fullName) {
+    var dn = document.getElementById('displayName');
+    if (dn) { dn.textContent=user.fullName; dn.classList.remove('placeholder-name'); }
+    var dr = document.getElementById('displayRole');
+    if (dr) dr.textContent=extras.preferredRole||user.preferredRole||'Job Seeker';
+    setVal('fullName', user.fullName);
+    setVal('username', user.username);
+    setVal('email',    user.email);
+    setVal('phone',    extras.phone||user.phone||'');
+    setVal('city',     extras.city||user.city||'');
+    var rs=document.getElementById('role'); if(rs) rs.value=extras.preferredRole||user.preferredRole||'';
+  }
+  if (token) {
+    fetch(API+'/users/profile', { headers:{'Authorization':'Bearer '+token} })
+    .then(function(r){ return r.json(); })
+    .then(function(data) {
+      if (!data._id) return;
+      var ex=JSON.parse(localStorage.getItem('user')||'{}');
+      localStorage.setItem('user', JSON.stringify(Object.assign(ex,data)));
+      var dn=document.getElementById('displayName');
+      if(dn){ dn.textContent=data.fullName||''; dn.classList.toggle('placeholder-name',!data.fullName); }
+      setVal('fullName',data.fullName); setVal('username',data.username);
+      setVal('email',data.email); setVal('phone',data.phone||''); setVal('city',data.city||'');
+      var rs=document.getElementById('role'); if(rs) rs.value=data.preferredRole||'';
+      var dr=document.getElementById('displayRole'); if(dr) dr.textContent=data.preferredRole||'Job Seeker';
+    }).catch(function(){});
+
+    fetch(API+'/applications/mine', { headers:{'Authorization':'Bearer '+token} })
+    .then(function(r){ return r.json(); })
+    .then(function(apps) {
+      if (!Array.isArray(apps)||!apps.length) return;
+      var el=function(id){ return document.getElementById(id); };
+      if(el('statApplied'))  el('statApplied').textContent=apps.length;
+      if(el('statReviewed')) el('statReviewed').textContent=apps.filter(function(a){ return a.status==='reviewed'; }).length;
+      if(el('statAccepted')) el('statAccepted').textContent=apps.filter(function(a){ return a.status==='accepted'; }).length;
+      var c=document.getElementById('applicationsContainer');
+      if(c) c.innerHTML=apps.map(function(app){
+        return '<div class="applied-job"><div><div class="job-name">'+(app.jobId&&app.jobId.title?app.jobId.title:'Job')+'</div><div class="job-date">Applied on '+new Date(app.createdAt).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})+'</div></div><span class="status '+app.status+'">'+app.status.charAt(0).toUpperCase()+app.status.slice(1)+'</span></div>';
+      }).join('');
+    }).catch(function(){});
+  }
+  var badges=JSON.parse(localStorage.getItem('profileBadges')||'[]'); renderBadges(badges);
+  var pic=localStorage.getItem('profilePic'); if(pic) showAvatarImage(pic);
+  var resume=JSON.parse(localStorage.getItem('resumeInfo')||'null'); if(resume) showResumeDisplay(resume.name,resume.size);
+}
+
+function saveProfile() {
+  var fullName=document.getElementById('fullName').value.trim();
+  var username=document.getElementById('username')?document.getElementById('username').value.trim():'';
+  var phone=document.getElementById('phone').value.trim();
+  var city=document.getElementById('city').value.trim();
+  var prefRole=document.getElementById('role').value;
+  var msg=document.getElementById('saveMsg');
+  var token=localStorage.getItem('token');
+  var dn=document.getElementById('displayName');
+  if(dn){ dn.textContent=fullName||'Your Name'; dn.classList.toggle('placeholder-name',!fullName); }
+  var dr=document.getElementById('displayRole'); if(dr) dr.textContent=prefRole||'Job Seeker';
+  localStorage.setItem('profileExtras', JSON.stringify({phone,city,preferredRole:prefRole}));
+  var u=JSON.parse(localStorage.getItem('user')||'{}'); u.fullName=fullName; localStorage.setItem('user',JSON.stringify(u));
+  if(msg){ msg.style.color='#888'; msg.textContent='Saving...'; }
+  if(token){
+    fetch(API+'/users/profile',{method:'PATCH',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({fullName,username,phone,city,preferredRole:prefRole})})
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var u2=JSON.parse(localStorage.getItem('user')||'{}');
+      localStorage.setItem('user',JSON.stringify(Object.assign(u2,data)));
+      if(msg){ msg.style.color='#00c9a7'; msg.textContent='✅ Profile saved!'; setTimeout(function(){ msg.textContent=''; },3000); }
+    }).catch(function(){ if(msg){ msg.style.color='#e74c3c'; msg.textContent='❌ Server error.'; } });
+  } else {
+    if(msg){ msg.style.color='#e65100'; msg.textContent='⚠️ Not logged in.'; }
+  }
+}
+
+function handlePicUpload(e){ var f=e.target.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(ev){ localStorage.setItem('profilePic',ev.target.result); showAvatarImage(ev.target.result); }; r.readAsDataURL(f); }
+function showAvatarImage(src){ var img=document.getElementById('avatarImg'); var ph=document.getElementById('avatarPlaceholder'); if(img&&ph){ img.src=src; img.style.display='block'; ph.style.display='none'; } }
+function renderBadges(badges){ var row=document.getElementById('badgeRow'); if(!row) return; row.innerHTML=badges.map(function(b,i){ return '<span class="badge">'+b+' <span class="remove-badge" onclick="removeBadge('+i+')">✕</span></span>'; }).join(''); }
+function addBadge(){ var input=document.getElementById('newBadgeInput'); var text=input?input.value.trim():''; if(!text) return; var badges=JSON.parse(localStorage.getItem('profileBadges')||'[]'); if(badges.length>=8){ alert('Max 8'); return; } badges.push(text); localStorage.setItem('profileBadges',JSON.stringify(badges)); renderBadges(badges); input.value=''; }
+function removeBadge(i){ var b=JSON.parse(localStorage.getItem('profileBadges')||'[]'); b.splice(i,1); localStorage.setItem('profileBadges',JSON.stringify(b)); renderBadges(b); }
+function handleDragOver(e){ e.preventDefault(); document.getElementById('resumeDropArea').classList.add('drag-over'); }
+function handleDragLeave(){ document.getElementById('resumeDropArea').classList.remove('drag-over'); }
+function handleResumeDrop(e){ e.preventDefault(); document.getElementById('resumeDropArea').classList.remove('drag-over'); var f=e.dataTransfer.files[0]; if(f) processResumeFile(f); }
+function handleResumeUpload(e){ var f=e.target.files[0]; if(f) processResumeFile(f); }
+function processResumeFile(file){ var allowed=['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document']; if(!allowed.includes(file.type)){ alert('PDF, DOC or DOCX only'); return; } if(file.size>5*1024*1024){ alert('Max 5MB'); return; } var r=new FileReader(); r.onload=function(e){ var info={name:file.name,size:formatFileSize(file.size),dataUrl:e.target.result}; localStorage.setItem('resumeInfo',JSON.stringify(info)); showResumeDisplay(file.name,formatFileSize(file.size)); }; r.readAsDataURL(file); }
+function showResumeDisplay(name,size){ document.getElementById('resumeFileName').textContent=name; document.getElementById('resumeFileSize').textContent=size; var d=document.getElementById('resumeDisplay'); var a=document.getElementById('resumeDropArea'); if(d) d.classList.add('show'); if(a) a.style.display='none'; }
+function viewResume(){ var info=JSON.parse(localStorage.getItem('resumeInfo')||'null'); if(info&&info.dataUrl){ var w=window.open(); w.document.write('<iframe src="'+info.dataUrl+'" width="100%" height="100%" style="border:none;"></iframe>'); } }
+function removeResume(){ localStorage.removeItem('resumeInfo'); document.getElementById('resumeDisplay').classList.remove('show'); document.getElementById('resumeDropArea').style.display=''; document.getElementById('resumeInput').value=''; }
+function formatFileSize(b){ if(b<1024) return b+' B'; if(b<1024*1024) return (b/1024).toFixed(1)+' KB'; return (b/(1024*1024)).toFixed(1)+' MB'; }
+</script>
+<script src="script.js"></script>
+</body>
+</html>

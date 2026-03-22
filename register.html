@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Portal Registration</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg") no-repeat center center/cover;
+  position: relative;
+  min-height: 100vh;
+}
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85));
+  z-index: 0;
+}
+
+.register-wrapper {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.role-selector {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.role-option {
+  flex: 1;
+  padding: 20px;
+  border: 2px solid #555;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s ease;
+  background: rgba(255,255,255,0.05);
+}
+
+.role-option:hover {
+  border-color: #00c9a7;
+  background: rgba(0,201,167,0.1);
+  transform: translateY(-3px);
+}
+
+.role-option input[type="radio"] {
+  display: none;
+}
+
+.role-option.active {
+  border-color: #00c9a7;
+  background: rgba(0,201,167,0.15);
+  box-shadow: 0 0 20px rgba(0,201,167,0.3);
+}
+
+.role-option.active .role-label {
+  color: #00c9a7;
+  font-weight: 600;
+}
+
+.role-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
+  color: #ccc;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.role-option.active .role-icon {
+  color: #00c9a7;
+}
+
+.role-label {
+  display: block;
+  font-size: 18px;
+  color: #ccc;
+  transition: all 0.3s ease;
+}
+
+.role-option small {
+  display: block;
+  color: #999;
+  margin-top: 5px;
+}
+
+form {
+  margin-top: 30px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  margin-bottom: 8px;
+  color: #ccc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.form-field input,
+.form-field select {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: #00c9a7;
+  box-shadow: 0 0 8px rgba(0,201,167,0.3);
+}
+
+.form-field .err {
+  color: #ff4d4d;
+  font-size: 12px;
+  margin-top: 4px;
+  min-height: 16px;
+}
+
+.form-field input.invalid {
+  border-color: #ff4d4d;
+  background-color: rgba(255, 77, 77, 0.05);
+}
+
+.form-field input.valid {
+  border-color: #1b5e20;
+  background-color: rgba(27, 94, 32, 0.05);
+}
+
+.gender-box {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.gender-box label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+  margin: 0;
+  font-weight: normal;
+}
+
+.gender-box input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: #00c9a7;
+}
+
+.section-label {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.message {
+  text-align: center;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  min-height: 20px;
+}
+
+.form-submit-btn {
+  margin-top: 20px;
+}
+
+.form-submit-btn input[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background: #00c9a7;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-submit-btn input[type="submit"]:hover {
+  background: #00a885;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,201,167,0.3);
+}
+
+.footer-link {
+  text-align: center;
+  margin-top: 15px;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.footer-link a {
+  color: #00c9a7;
+  text-decoration: none;
+}
+
+.footer-link a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-field.full-width {
+    grid-column: 1;
+  }
+  
+  .role-selector {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="register-wrapper">
+  <div class="container">
+    <h1 class="form-title">Join Our Job Portal</h1>
+    <p class="subtitle">Choose your role and create your account.</p>
+
+    <!-- Role Selector -->
+    <div class="role-selector">
+      <label class="role-option active" id="jobSeekerRole">
+        <input type="radio" name="role" value="job_seeker" id="roleJobSeeker" checked>
+        <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <div class="role-label">Job Seeker</div>
+        <small>Find & apply for jobs</small>
+      </label>
+
+      <label class="role-option" id="companyRole">
+        <input type="radio" name="role" value="company" id="roleCompany">
+        <svg class="role-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 7V5a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2v2"></path>
+          <line x1="6" y1="14" x2="18" y2="14"></line>
+        </svg>
+        <div class="role-label">Company</div>
+        <small>Post & manage jobs</small>
+      </label>
+    </div>
+
+    <!-- Registration Form -->
+    <form id="registerForm">
+      <div class="message" id="message"></div>
+
+      <div class="form-grid">
+        <!-- Common Fields -->
+        <div class="form-field full-width">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="Enter Email" required>
+          <span class="err" id="emailErr"></span>
+        </div>
+
+        <div class="form-field full-width">
+          <label>Phone Number</label>
+          <input type="tel" id="phone" placeholder="Enter 10-digit Phone Number" maxlength="10" required>
+          <span class="err" id="phoneErr"></span>
+        </div>
+
+        <div class="form-field">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="Min 6 characters" required>
+          <span class="err" id="passwordErr"></span>
+        </div>
+
+        <div class="form-field">
+          <label>Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+          <span class="err" id="confirmErr"></span>
+        </div>
+
+        <!-- Job Seeker Fields -->
+        <div class="form-field job-seeker-field">
+          <label>Full Name</label>
+          <input type="text" id="fullName" placeholder="Enter Full Name">
+          <span class="err" id="fullNameErr"></span>
+        </div>
+
+        <div class="form-field job-seeker-field">
+          <label>Username</label>
+          <input type="text" id="username" placeholder="Enter Username">
+          <span class="err" id="usernameErr"></span>
+        </div>
+
+        <div class="form-field full-width job-seeker-field gender-box" id="genderSection">
+          <label>Gender:</label>
+          <label><input type="radio" name="gender" value="Male"> Male</label>
+          <label><input type="radio" name="gender" value="Female"> Female</label>
+          <label><input type="radio" name="gender" value="Other"> Other</label>
+        </div>
+
+        <!-- Company Fields -->
+        <div class="section-label company-field hidden">Company Information</div>
+
+        <div class="form-field company-field hidden">
+          <label>Company Name</label>
+          <input type="text" id="companyName" placeholder="Enter Company Name">
+          <span class="err" id="companyNameErr"></span>
+        </div>
+
+        <div class="form-field company-field hidden">
+          <label>Contact Person</label>
+          <input type="text" id="contactPerson" placeholder="Enter Contact Person Name">
+          <span class="err" id="contactPersonErr"></span>
+        </div>
+
+        <div class="form-field company-field hidden">
+          <label>Industry</label>
+          <select id="industry">
+            <option value="">Select Industry</option>
+            <option value="technology">Technology</option>
+            <option value="finance">Finance</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="retail">Retail</option>
+            <option value="manufacturing">Manufacturing</option>
+            <option value="education">Education</option>
+            <option value="consulting">Consulting</option>
+            <option value="other">Other</option>
+          </select>
+          <span class="err" id="industryErr"></span>
+        </div>
+
+        <div class="form-field company-field hidden">
+          <label>Company Size</label>
+          <select id="companySize">
+            <option value="">Select Company Size</option>
+            <option value="1-50">1-50 employees</option>
+            <option value="51-200">51-200 employees</option>
+            <option value="201-500">201-500 employees</option>
+            <option value="501-1000">501-1000 employees</option>
+            <option value="1000+">1000+ employees</option>
+          </select>
+          <span class="err" id="companySizeErr"></span>
+        </div>
+
+        <div class="form-field full-width company-field hidden">
+          <label>Company Website</label>
+          <input type="url" id="website" placeholder="https://example.com">
+          <span class="err" id="websiteErr"></span>
+        </div>
+      </div>
+
+      <div class="form-submit-btn">
+        <input type="submit" value="Register">
+      </div>
+    </form>
+
+    <div class="footer-link">
+      Already have an account? <a href="login.html">Login here</a>
+    </div>
+  </div>
+</div>
+
+<script>
+const roleJobSeeker = document.getElementById('roleJobSeeker');
+const roleCompany = document.getElementById('roleCompany');
+const jobSeekerRole = document.getElementById('jobSeekerRole');
+const companyRole = document.getElementById('companyRole');
+
+const jobSeekerFields = document.querySelectorAll('.job-seeker-field');
+const companyFields = document.querySelectorAll('.company-field');
+
+function switchToJobSeeker() {
+  jobSeekerRole.classList.add('active');
+  companyRole.classList.remove('active');
+  
+  jobSeekerFields.forEach(field => field.classList.remove('hidden'));
+  companyFields.forEach(field => field.classList.add('hidden'));
+}
+
+function switchToCompany() {
+  companyRole.classList.add('active');
+  jobSeekerRole.classList.remove('active');
+  
+  jobSeekerFields.forEach(field => field.classList.add('hidden'));
+  companyFields.forEach(field => field.classList.remove('hidden'));
+}
+
+roleJobSeeker.addEventListener('change', switchToJobSeeker);
+roleCompany.addEventListener('change', switchToCompany);
+
+// Error handling
+function setError(inputId, errId, msg) {
+  const input = document.getElementById(inputId);
+  const err = document.getElementById(errId);
+  if (!input || !err) return;
+  err.textContent = msg;
+  input.classList.add('invalid');
+  input.classList.remove('valid');
+}
+
+function setValid(inputId, errId) {
+  const input = document.getElementById(inputId);
+  const err = document.getElementById(errId);
+  if (!input || !err) return;
+  err.textContent = '';
+  input.classList.remove('invalid');
+  input.classList.add('valid');
+}
+
+// Validation functions
+function validateEmail() {
+  const val = document.getElementById('email').value.trim();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (val === '') {
+    setError('email', 'emailErr', 'Email is required.');
+  } else if (!emailRegex.test(val)) {
+    setError('email', 'emailErr', 'Invalid email format.');
+  } else {
+    setValid('email', 'emailErr');
+    return true;
+  }
+  return false;
+}
+
+function validatePhone() {
+  const val = document.getElementById('phone').value.trim();
+  if (val === '') {
+    setError('phone', 'phoneErr', 'Phone is required.');
+  } else if (!/^\d{10}$/.test(val)) {
+    setError('phone', 'phoneErr', 'Phone must be 10 digits.');
+  } else {
+    setValid('phone', 'phoneErr');
+    return true;
+  }
+  return false;
+}
+
+function validatePassword() {
+  const val = document.getElementById('password').value;
+  if (val === '') {
+    setError('password', 'passwordErr', 'Password is required.');
+  } else if (val.length < 6) {
+    setError('password', 'passwordErr', 'Password must be at least 6 characters.');
+  } else {
+    setValid('password', 'passwordErr');
+    return true;
+  }
+  return false;
+}
+
+function validateConfirm() {
+  const pass = document.getElementById('password').value;
+  const confirm = document.getElementById('confirmPassword').value;
+  if (confirm === '') {
+    setError('confirmPassword', 'confirmErr', 'Please confirm password.');
+  } else if (pass !== confirm) {
+    setError('confirmPassword', 'confirmErr', 'Passwords do not match.');
+  } else {
+    setValid('confirmPassword', 'confirmErr');
+    return true;
+  }
+  return false;
+}
+
+function validateFullName() {
+  const val = document.getElementById('fullName').value.trim();
+  if (val === '') {
+    setError('fullName', 'fullNameErr', 'Full name is required.');
+  } else if (!/^[a-zA-Z\s]+$/.test(val)) {
+    setError('fullName', 'fullNameErr', 'Name can only contain letters.');
+  } else {
+    setValid('fullName', 'fullNameErr');
+    return true;
+  }
+  return false;
+}
+
+function validateUsername() {
+  const val = document.getElementById('username').value.trim();
+  if (val === '') {
+    setError('username', 'usernameErr', 'Username is required.');
+  } else if (val.length < 3) {
+    setError('username', 'usernameErr', 'Username must be at least 3 characters.');
+  } else if (/\s/.test(val)) {
+    setError('username', 'usernameErr', 'Username cannot contain spaces.');
+  } else {
+    setValid('username', 'usernameErr');
+    return true;
+  }
+  return false;
+}
+
+function validateCompanyName() {
+  const val = document.getElementById('companyName').value.trim();
+  if (val === '') {
+    setError('companyName', 'companyNameErr', 'Company name is required.');
+  } else if (val.length < 3) {
+    setError('companyName', 'companyNameErr', 'Company name must be at least 3 characters.');
+  } else {
+    setValid('companyName', 'companyNameErr');
+    return true;
+  }
+  return false;
+}
+
+function validateContactPerson() {
+  const val = document.getElementById('contactPerson').value.trim();
+  if (val === '') {
+    setError('contactPerson', 'contactPersonErr', 'Contact person is required.');
+  } else if (val.length < 3) {
+    setError('contactPerson', 'contactPersonErr', 'Name must be at least 3 characters.');
+  } else {
+    setValid('contactPerson', 'contactPersonErr');
+    return true;
+  }
+  return false;
+}
+
+function validateIndustry() {
+  const val = document.getElementById('industry').value;
+  if (val === '') {
+    setError('industry', 'industryErr', 'Industry is required.');
+  } else {
+    setValid('industry', 'industryErr');
+    return true;
+  }
+  return false;
+}
+
+function validateCompanySize() {
+  const val = document.getElementById('companySize').value;
+  if (val === '') {
+    setError('companySize', 'companySizeErr', 'Company size is required.');
+  } else {
+    setValid('companySize', 'companySizeErr');
+    return true;
+  }
+  return false;
+}
+
+// Phone input - only numbers
+document.getElementById('phone').addEventListener('keypress', (e) => {
+  if (!/[0-9]/.test(e.key)) e.preventDefault();
+});
+
+document.getElementById('phone').addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '');
+});
+
+// Live validation
+document.getElementById('email').addEventListener('input', validateEmail);
+document.getElementById('phone').addEventListener('input', validatePhone);
+document.getElementById('password').addEventListener('input', validatePassword);
+document.getElementById('confirmPassword').addEventListener('input', validateConfirm);
+document.getElementById('fullName').addEventListener('input', validateFullName);
+document.getElementById('username').addEventListener('input', validateUsername);
+document.getElementById('companyName').addEventListener('input', validateCompanyName);
+document.getElementById('contactPerson').addEventListener('input', validateContactPerson);
+document.getElementById('industry').addEventListener('change', validateIndustry);
+document.getElementById('companySize').addEventListener('change', validateCompanySize);
+
+// Form submit
+document.getElementById('registerForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const role = document.querySelector('input[name="role"]:checked').value;
+  const msgEl = document.getElementById('message');
+
+  let isValid = true;
+
+  // Common validations
+  if (!validateEmail()) isValid = false;
+  if (!validatePhone()) isValid = false;
+  if (!validatePassword()) isValid = false;
+  if (!validateConfirm()) isValid = false;
+
+  if (role === 'job_seeker') {
+    if (!validateFullName()) isValid = false;
+    if (!validateUsername()) isValid = false;
+
+    const genderSelected = document.querySelector('input[name="gender"]:checked');
+    if (!genderSelected) {
+      msgEl.style.color = '#ff4d4d';
+      msgEl.textContent = 'Please select a gender.';
+      isValid = false;
+    }
+
+    if (isValid) {
+      const userData = {
+        accountType: 'job_seeker',
+        fullName: document.getElementById('fullName').value,
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        gender: genderSelected.value,
+        password: document.getElementById('password').value
+      };
+      msgEl.style.color = '#00ffcc';
+      msgEl.textContent = 'Registering...';
+      fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.userId || data.message === 'Registered successfully') {
+          msgEl.style.color = '#00ffcc';
+          msgEl.textContent = 'Registration successful! Redirecting...';
+          setTimeout(() => window.location.href = 'login.html', 1500);
+        } else {
+          msgEl.style.color = '#ff4d4d';
+          msgEl.textContent = data.message || 'Registration failed.';
+        }
+      })
+      .catch(() => {
+        msgEl.style.color = '#ff4d4d';
+        msgEl.textContent = 'Cannot connect to server. Is it running?';
+      });
+    }
+
+  } else if (role === 'company') {
+    if (!validateCompanyName()) isValid = false;
+    if (!validateContactPerson()) isValid = false;
+    if (!validateIndustry()) isValid = false;
+    if (!validateCompanySize()) isValid = false;
+
+    if (isValid) {
+      const companyData = {
+        accountType: 'company',
+        companyName: document.getElementById('companyName').value,
+        contactPerson: document.getElementById('contactPerson').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        industry: document.getElementById('industry').value,
+        website: document.getElementById('website').value,
+        companySize: document.getElementById('companySize').value,
+        password: document.getElementById('password').value
+      };
+      msgEl.style.color = '#00ffcc';
+      msgEl.textContent = 'Registering...';
+      fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(companyData)
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.userId || data.message === 'Registered successfully') {
+          msgEl.style.color = '#00ffcc';
+          msgEl.textContent = 'Registration successful! Redirecting...';
+          setTimeout(() => window.location.href = 'login.html', 1500);
+        } else {
+          msgEl.style.color = '#ff4d4d';
+          msgEl.textContent = data.message || 'Registration failed.';
+        }
+      })
+      .catch(() => {
+        msgEl.style.color = '#ff4d4d';
+        msgEl.textContent = 'Cannot connect to server. Is it running?';
+      });
+    }
+  }
+});
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
