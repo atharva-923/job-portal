@@ -9,7 +9,9 @@
 //  5. Mobile nav toggle  → all pages
 // ═══════════════════════════════════════════════════════════
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000/api'
+    : 'https://job-portal-backend-g5ju.onrender.com/api';
 
 
 // ── 1. LOGIN ──────────────────────────────────────────────
