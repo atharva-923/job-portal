@@ -1,4 +1,4 @@
-# 🧑‍💼 Job Portal — Full Stack Web Application
+# 🧑‍💼 Enhanced Job Portal
 
 A full-stack job portal web application where job seekers can browse and apply for jobs, companies can post and manage listings, and an admin has full oversight of the platform.
 
@@ -51,6 +51,7 @@ job-portal/
 │   │   └── users.js
 │   ├── seed.js
 │   ├── server.js
+│   ├── .env.example          ← copy to .env and fill in your values
 │   └── package.json
 ├── jobs.html
 ├── job-details.html
@@ -68,41 +69,57 @@ job-portal/
 ## 🚀 Getting Started Locally
 
 ### Prerequisites
-- Node.js installed
-- MongoDB Atlas account
-- Git installed
+- Node.js ≥ 18.x
+- MongoDB Atlas account (free tier works)
+- Git
 
 ### 1. Clone the repo
+
 ```bash
 git clone https://github.com/atharva-923/job-portal.git
 cd job-portal
 ```
 
 ### 2. Setup the backend
+
 ```bash
 cd backend
 npm install
 ```
 
-### 3. Create a `.env` file inside the `backend` folder
+### 3. Create your `.env` file
+
+```bash
+cp .env.example .env
 ```
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
+
+Then open `backend/.env` and fill in:
+
+```env
 PORT=5000
+MONGO_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/job-portal
+JWT_SECRET=your_super_secret_jwt_key
 ```
 
 ### 4. Seed the database (optional — loads 20 sample jobs)
+
 ```bash
 node seed.js
 ```
 
 ### 5. Start the backend server
+
 ```bash
-node server.js
+# Production
+npm start
+
+# Development (auto-restart)
+npm run dev
 ```
 
 ### 6. Open the frontend
-Open `jobs.html` directly in your browser or use Live Server in VS Code.
+
+Open `jobs.html` directly in your browser or use **Live Server** in VS Code.
 
 ---
 
@@ -122,16 +139,24 @@ Open `jobs.html` directly in your browser or use Live Server in VS Code.
 
 | Method | Endpoint | Access |
 |---|---|---|
-| POST | /api/auth/register | Public |
-| POST | /api/auth/login | Public |
-| GET | /api/jobs | Public |
-| POST | /api/jobs | Company / Admin |
-| DELETE | /api/jobs/:id | Company / Admin |
-| POST | /api/applications | Logged In |
-| GET | /api/applications/mine | Logged In |
-| PATCH | /api/applications/:id | Company / Admin |
-| GET | /api/users/profile | Logged In |
-| PATCH | /api/users/profile | Logged In |
+| POST | `/api/auth/register` | Public |
+| POST | `/api/auth/login` | Public |
+| GET | `/api/jobs` | Public |
+| POST | `/api/jobs` | Company / Admin |
+| DELETE | `/api/jobs/:id` | Company / Admin |
+| POST | `/api/applications` | Logged In |
+| GET | `/api/applications/mine` | Logged In |
+| PATCH | `/api/applications/:id` | Company / Admin |
+| GET | `/api/users/profile` | Logged In |
+| PATCH | `/api/users/profile` | Logged In |
+
+---
+
+## 🔒 Security Notes
+
+- **Never commit your `.env` file.** It is listed in `.gitignore`.
+- Use a strong, random `JWT_SECRET` (e.g. `openssl rand -hex 32`).
+- Rotate your MongoDB credentials if they were ever exposed publicly.
 
 ---
 
@@ -144,4 +169,4 @@ Open `jobs.html` directly in your browser or use Live Server in VS Code.
 
 ## 📄 License
 
-This project is for academic purposes.
+This project is for academic purposes (MDM Capstone Project).

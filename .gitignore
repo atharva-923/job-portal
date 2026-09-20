@@ -1,0 +1,33 @@
+# ─── Dependencies ────────────────────────────────────────────────
+node_modules/
+
+# ─── Environment Variables ───────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ─── OS & Editor artifacts ───────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.vscode/
+.idea/
+
+# ─── Logs ────────────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+
+# ─── Build output ────────────────────────────────────────────────
+dist/
+build/
+
+# ─── Presentation / binary files not needed in repo ─────────────
+*.pptx
+*.ppt
+*.docx
+*.xlsx
