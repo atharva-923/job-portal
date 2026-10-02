@@ -71,6 +71,7 @@ job-portal/
 │   ├── script.js
 │   └── style.css
 ├── .gitignore
+├── vercel.json               ← Vercel static deploy config
 └── README.md
 ```
 
