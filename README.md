@@ -53,15 +53,25 @@ job-portal/
 │   ├── server.js
 │   ├── .env.example          ← copy to .env and fill in your values
 │   └── package.json
-├── jobs.html
-├── job-details.html
-├── login.html
-├── register.html
-├── profile.html
-├── about.html
-├── contact.html
-├── script.js
-└── style.css
+├── frontend/
+│   ├── images/
+│   │   ├── software-engineer.svg
+│   │   ├── data-scientist.svg
+│   │   ├── project-manager.svg
+│   │   ├── marketing-manager.svg
+│   │   ├── sales-representative.svg
+│   │   └── seven hills hospital.jpg
+│   ├── jobs.html
+│   ├── job-details.html
+│   ├── login.html
+│   ├── register.html
+│   ├── profile.html
+│   ├── about.html
+│   ├── contact.html
+│   ├── script.js
+│   └── style.css
+├── .gitignore
+└── README.md
 ```
 
 ---
@@ -119,7 +129,7 @@ npm run dev
 
 ### 6. Open the frontend
 
-Open `jobs.html` directly in your browser or use **Live Server** in VS Code.
+Navigate to the `frontend/` folder and open `jobs.html` directly in your browser, or use **Live Server** in VS Code (right-click `frontend/jobs.html` → *Open with Live Server*).
 
 ---
 
